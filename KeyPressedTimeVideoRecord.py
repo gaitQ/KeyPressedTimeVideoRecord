@@ -385,7 +385,7 @@ class Thread(QThread):
 
                     global videoLabelObject,labelHeight 
                     videoProportion= videoLabelObject.height() /labelHeight
-                    p = convertToQtFormat.scaled(640*videoProportion, 480*videoProportion, Qt.KeepAspectRatio)
+                    p = convertToQtFormat.scaled(int(640*videoProportion), int(480*videoProportion), Qt.KeepAspectRatio)
                     self.changePixmap.emit(p)
                     self.sec = self.sec + 1
                     print(self.sec)
