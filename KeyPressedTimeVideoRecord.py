@@ -66,7 +66,7 @@ class Ui_MainWindow(object):
         halfSpeedRadioButton = QtWidgets.QRadioButton(self.centralwidget)
         halfSpeedRadioButton.setObjectName("halfSpeedRadioButton")
         self.newVerticalLayout.addWidget(halfSpeedRadioButton)
-        halfSpeedRadioButton.setChecked(True)
+        normalSpeedRadioButton.setChecked(True)
         onefourthSpeedRadioButton = QtWidgets.QRadioButton(self.centralwidget)
         onefourthSpeedRadioButton.setObjectName("onefourthSpeedRadioButton")
 
@@ -406,13 +406,15 @@ class Thread(QThread):
                     m, s = divmod(int(videoCurrentPosition * frameTime/1000.0), 60)
                     h, m = divmod(m, 60)
                     global normalSpeedRadioButton, halfSpeedRadioButton, onefourthSpeedRadioButton
-                    speedProportion=0 
                     if normalSpeedRadioButton.isChecked():
-                        speedProportion=1
+                        speedProportion = 1
                     elif halfSpeedRadioButton.isChecked():
                         speedProportion = 2
                     elif onefourthSpeedRadioButton.isChecked():
                         speedProportion = 4
+                    else:
+                        speedProportion = 1  # fallback to normal
+
                     if int((frameCapture.get(cv2.CAP_PROP_FRAME_COUNT))-0.5) <=self.sec:
                         ms = videoCurrentPosition * frameTime
                         s, ms = divmod(ms, 1000)
