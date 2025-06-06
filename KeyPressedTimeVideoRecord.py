@@ -39,6 +39,12 @@ video_list=[]
 frameTime = 32
 class Ui_MainWindow(object):
 
+    def resizeEvent(self, event):
+        if videoLabelObject.pixmap():
+            self.setFrameImage(videoLabelObject.pixmap().toImage())
+        event.accept()
+
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 500)
@@ -90,6 +96,7 @@ class Ui_MainWindow(object):
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.translateUi(MainWindow)
+        MainWindow.resizeEvent = self.resizeEvent
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.videoPlayButton.clicked.connect(self.videoPlay)
@@ -300,7 +307,10 @@ class Ui_MainWindow(object):
 
     def setFrameImage(self, image):
 
-        videoLabelObject.setPixmap(QPixmap.fromImage(image))
+        pixmap = QPixmap.fromImage(image)
+        scaled_pixmap = pixmap.scaled(videoLabelObject.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        videoLabelObject.setPixmap(scaled_pixmap)
+
     def recordL(self):
         print("left button")
         ms = videoCurrentPosition*frameTime
